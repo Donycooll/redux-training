@@ -61,13 +61,12 @@ const Todo = ({ todo }) => {
   return (
     <>
       <Card style={{ margin: "10px 0", direction: "rtl" }}>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} style={{ display: "flex", justifyContent: "space-between", padding: "10px", }}>
           <Stack
             style={{
-              width: "70%",
               display: "flex",
               justifyContent: "space-between",
-              padding: "10px",
+              
               textAlign: "start",
             }}
           >
@@ -76,7 +75,7 @@ const Todo = ({ todo }) => {
           </Stack>
           <Stack
             direction={"row"}
-            style={{ width: "30%", alignItems: "center" }}
+            style={{  alignItems: "center" }}
           >
             <IconButton>
               <CheckCircleOutlineOutlinedIcon

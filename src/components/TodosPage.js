@@ -60,7 +60,6 @@ const TodosPage = () => {
 
   //   ###########################
 
-
   return (
     <AppContext.Provider
       value={{
@@ -77,7 +76,7 @@ const TodosPage = () => {
           margin: "10px auto",
         }}
       >
-        <Typography variant="h3" sx={{ fontWeight: "bold", color: "darkblue" }}>
+        <Typography variant="h3" sx={{ fontWeight: "bold", color: "darkblue", position: "sticky", top: "0", background: "white", width: "100%", padding: "10px 0", zIndex: "100" }}>
           قائمة المهام
         </Typography>
         <Stack style={{ width: "100%", alignItems: "center" }}>
