@@ -3,44 +3,114 @@ import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutli
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-const Todo = ({ todo, handleDeleteTodo, toggleComplete, handleEditTodo }) => {
+import { AppContext } from "../AppContext";
+
+import { useContext, useState } from "react";
+import DeleteWarning from "./DeleteWarning.";
+import EditDialog from "./EditDialog";
+
+const Todo = ({ todo }) => {
+  const { todos, setTodos } = useContext(AppContext);
+
+  const [currTodo, setCurrTodo] = useState("");
+
+  const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
+
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+
+  const toggleComplete = () => {
+    const newTodos = todos.map((task) => {
+      if (task.id === todo.id) {
+        return { ...task, isComplete: !task.isComplete };
+      }
+      return task;
+    });
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+    setTodos(newTodos);
+  };
+
+  const confirmDeleteTodo = () => {
+    const newTodos = todos.filter((task) => task.id !== todo.id);
+    setOpenDeleteWarning(false);
+    setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+  };
+
+  const handleEditTodo = () => {
+    const selectedTodo = todos.find((task) => task.id === todo.id);
+    setCurrTodo(selectedTodo);
+    setOpenEditDialog(true);
+  };
+
+  const handleSubmitDialog = (curr) => {
+    const newTodos = todos.map((task) => {
+      if (curr.id === task.id) {
+        return {
+          ...task,
+          title: curr.title,
+          describtion: curr.describtion,
+        };
+      }
+      return task;
+    });
+    setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+    setOpenEditDialog(false);
+  };
+
   return (
-    <Card style={{  margin: "10px 0" }}>
-      <Stack direction={"row"}>
-        <Stack
-          style={{
-            width: "70%",
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "10px",
-            textAlign: "start",
-          }}
-        >
-          <Typography variant="h4">{todo.title}</Typography>
-          <Typography variant="p1">{todo.describtion}</Typography>
+    <>
+      <Card style={{ margin: "10px 0", direction: "rtl" }}>
+        <Stack direction={"row"}>
+          <Stack
+            style={{
+              width: "70%",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "10px",
+              textAlign: "start",
+            }}
+          >
+            <Typography variant="h4">{todo.title}</Typography>
+            <Typography variant="p1">{todo.describtion}</Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            style={{ width: "30%", alignItems: "center" }}
+          >
+            <IconButton>
+              <CheckCircleOutlineOutlinedIcon
+                style={{ color: todo.isComplete ? "green" : "gray" }}
+                onClick={() => toggleComplete()}
+              />
+            </IconButton>
+            <IconButton>
+              <EditOutlinedIcon
+                style={{ color: "blue" }}
+                onClick={() => handleEditTodo()}
+              />
+            </IconButton>
+            <IconButton>
+              <DeleteOutlineOutlinedIcon
+                style={{ color: "red" }}
+                onClick={() => setOpenDeleteWarning(true)}
+              />
+            </IconButton>
+          </Stack>
         </Stack>
-        <Stack direction={"row"} style={{ width: "30%", alignItems: "center" }}>
-          <IconButton>
-            <CheckCircleOutlineOutlinedIcon
-              style={{ color: todo.isComplete ? "green" : "gray" }}
-              onClick={() => toggleComplete(todo.id)}
-            />
-          </IconButton>
-          <IconButton>
-            <EditOutlinedIcon
-              style={{ color: "blue" }}
-              onClick={() => handleEditTodo(todo.id)}
-            />
-          </IconButton>
-          <IconButton>
-            <DeleteOutlineOutlinedIcon
-              style={{ color: "red" }}
-              onClick={() => handleDeleteTodo(todo.id)}
-            />
-          </IconButton>
-        </Stack>
-      </Stack>
-    </Card>
+      </Card>
+      <DeleteWarning
+        openDeleteWarning={openDeleteWarning}
+        setOpenDeleteWarning={setOpenDeleteWarning}
+        confirmDeleteTodo={confirmDeleteTodo}
+      />
+      <EditDialog
+        currTodo={currTodo}
+        openEditDialog={openEditDialog}
+        setOpenEditDialog={setOpenEditDialog}
+        handleSubmitDialog={handleSubmitDialog}
+      />
+    </>
   );
 };
 

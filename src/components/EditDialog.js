@@ -6,51 +6,65 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
 
-const EditDialog = ({ open, handleClose, handleSubmit, todo }) => {
-  const [curr, setCurr] = useState(todo);
+const EditDialog = ({
+  currTodo,
+  openEditDialog,
+  setOpenEditDialog,
+  handleSubmitDialog,
+}) => {
+  const [curr, setCurr] = useState(null);
 
   useEffect(() => {
-    setCurr(todo);
-  }, [todo]);
+    setCurr(currTodo);
+  }, [currTodo]);
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Todo</DialogTitle>
-        <DialogContent>
-          <form onSubmit={handleSubmit} id="subscription-form">
-            <TextField
-              required
-              margin="dense"
-              id="title"
-              name="title"
-              label="Todo Title"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={curr.title}
-              onChange={(e) => setCurr({ ...curr, title: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              id="describtion"
-              name="describtion"
-              label="Todo describtion"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={curr.describtion}
-              onChange={(e) =>
-                setCurr({ ...curr, describtion: e.target.value })
-              }
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => handleSubmit(curr)}>Confirm Changes</Button>
-        </DialogActions>
-      </Dialog>
+      {curr && (
+        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)} dir="rtl">
+          <DialogTitle>تعديل المهمة</DialogTitle>
+          <DialogContent>
+            <form onSubmit={handleSubmitDialog} id="subscription-form">
+              <TextField
+                required
+                margin="dense"
+                id="title"
+                name="title"
+                label="عنوان المهمة"
+                type="text"
+                fullWidth
+                variant="standard"
+                value={curr.title}
+                onChange={(e) => setCurr({ ...curr, title: e.target.value })}
+              />
+              <TextField
+                margin="dense"
+                id="describtion"
+                name="describtion"
+                label="وصف المهمة"
+                type="text"
+                fullWidth
+                variant="standard"
+                value={curr.describtion}
+                onChange={(e) =>
+                  setCurr({ ...curr, describtion: e.target.value })
+                }
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditDialog(false)}>
+              إلغاء
+            </Button>
+            <Button
+              onClick={() => handleSubmitDialog(curr)}
+              disabled={!curr.title}
+            >
+              تأكيد التغييرات
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 };
