@@ -3,14 +3,14 @@ import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutli
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-import { AppContext } from "../AppContext";
+import { useAppContext } from "../AppContext";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DeleteWarning from "./DeleteWarning.";
 import EditDialog from "./EditDialog";
 
 const Todo = ({ todo }) => {
-  const { todos, setTodos } = useContext(AppContext);
+  const { todos, setTodos } = useAppContext();
 
   const [currTodo, setCurrTodo] = useState("");
 
@@ -61,22 +61,26 @@ const Todo = ({ todo }) => {
   return (
     <>
       <Card style={{ margin: "10px 0", direction: "rtl" }}>
-        <Stack direction={"row"} style={{ display: "flex", justifyContent: "space-between", padding: "10px", }}>
+        <Stack
+          direction={"row"}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "10px",
+          }}
+        >
           <Stack
             style={{
               display: "flex",
               justifyContent: "space-between",
-              
+
               textAlign: "start",
             }}
           >
             <Typography variant="h4">{todo.title}</Typography>
             <Typography variant="p1">{todo.describtion}</Typography>
           </Stack>
-          <Stack
-            direction={"row"}
-            style={{  alignItems: "center" }}
-          >
+          <Stack direction={"row"} style={{ alignItems: "center" }}>
             <IconButton>
               <CheckCircleOutlineOutlinedIcon
                 style={{ color: todo.isComplete ? "green" : "gray" }}
