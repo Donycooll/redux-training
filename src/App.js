@@ -6,7 +6,7 @@ import SignupPage from "./components/SignupPage";
 import { ContextProvider } from "./AppContext";
 
 import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./components/AuthContext";
+import { AuthProvider } from "./AuthContext";
 import { Protected } from "./components/Protected";
 
 function App() {

@@ -18,7 +18,7 @@ import { replace, useNavigate } from "react-router-dom";
 
 import Todo from "./Todo";
 import { useAppContext } from "../AppContext";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../AuthContext";
 
 const TodosPage = () => {
   const { todos, setTodos, todosFilter, handleFilterChange } = useAppContext();

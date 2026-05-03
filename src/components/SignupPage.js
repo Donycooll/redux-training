@@ -4,7 +4,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { Link, replace, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../AuthContext";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
