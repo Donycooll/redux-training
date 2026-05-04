@@ -16,24 +16,24 @@ const Todo = ({ todo }) => {
 
   const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
 
+  const { deleteTodo, toggleComplete } = useAppContext();
+
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  const toggleComplete = () => {
-    const newTodos = todos.map((task) => {
-      if (task.id === todo.id) {
-        return { ...task, isComplete: !task.isComplete };
-      }
-      return task;
-    });
-    localStorage.setItem("todos", JSON.stringify(newTodos));
-    setTodos(newTodos);
-  };
+  // const toggleComplete = () => {
+  //   const newTodos = todos.map((task) => {
+  //     if (task.id === todo.id) {
+  //       return { ...task, isComplete: !task.isComplete };
+  //     }
+  //     return task;
+  //   });
+  //   localStorage.setItem("todos", JSON.stringify(newTodos));
+  //   setTodos(newTodos);
+  // };
 
   const confirmDeleteTodo = () => {
-    const newTodos = todos.filter((task) => task.id !== todo.id);
+    deleteTodo(todo.id);
     setOpenDeleteWarning(false);
-    setTodos(newTodos);
-    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   const handleEditTodo = () => {
@@ -84,7 +84,7 @@ const Todo = ({ todo }) => {
             <IconButton>
               <CheckCircleOutlineOutlinedIcon
                 style={{ color: todo.isComplete ? "green" : "gray" }}
-                onClick={() => toggleComplete()}
+                onClick={() => toggleComplete(todo.id)}
               />
             </IconButton>
             <IconButton>

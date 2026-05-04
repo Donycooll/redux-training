@@ -13,7 +13,6 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { replace, useNavigate } from "react-router-dom";
 
 import Todo from "./Todo";
@@ -21,7 +20,7 @@ import { useAppContext } from "../AppContext";
 import { useAuth } from "../AuthContext";
 
 const TodosPage = () => {
-  const { todos, setTodos, todosFilter, handleFilterChange } = useAppContext();
+  const { todos, todosFilter, handleFilterChange, createTodo } = useAppContext();
   const [newTodo, setNewTodo] = useState("");
   const { handleLogout, user } = useAuth();
   const navigate = useNavigate();
@@ -37,14 +36,7 @@ const TodosPage = () => {
   });
 
   const handleAddTodo = () => {
-    const newTask = {
-      title: newTodo,
-      describtion: "",
-      isComplete: false,
-      id: uuidv4(),
-    };
-    setTodos([newTask, ...todos]);
-    localStorage.setItem("todos", JSON.stringify([newTask, ...todos]));
+    createTodo(newTodo);
     setNewTodo("");
   };
 
