@@ -20,7 +20,8 @@ import { useAppContext } from "../AppContext";
 import { useAuth } from "../AuthContext";
 
 const TodosPage = () => {
-  const { todos, todosFilter, handleFilterChange, createTodo } = useAppContext();
+  const { todos, todosFilter, handleFilterChange, createTodo } =
+    useAppContext();
   const [newTodo, setNewTodo] = useState("");
   const { handleLogout, user } = useAuth();
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ const TodosPage = () => {
           variant="contained"
           color="primary"
           onClick={logout}
-          style={{background:'red'}}
+          style={{ background: "red" }}
         >
           <LogoutIcon />
           <Typography variant="body2" style={{ marginLeft: "10px" }}>

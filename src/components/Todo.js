@@ -10,26 +10,13 @@ import DeleteWarning from "./DeleteWarning.";
 import EditDialog from "./EditDialog";
 
 const Todo = ({ todo }) => {
-  const { todos, setTodos } = useAppContext();
+  const { deleteTodo, toggleComplete, updateTodo } = useAppContext();
 
   const [currTodo, setCurrTodo] = useState("");
 
   const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
 
-  const { deleteTodo, toggleComplete } = useAppContext();
-
   const [openEditDialog, setOpenEditDialog] = useState(false);
-
-  // const toggleComplete = () => {
-  //   const newTodos = todos.map((task) => {
-  //     if (task.id === todo.id) {
-  //       return { ...task, isComplete: !task.isComplete };
-  //     }
-  //     return task;
-  //   });
-  //   localStorage.setItem("todos", JSON.stringify(newTodos));
-  //   setTodos(newTodos);
-  // };
 
   const confirmDeleteTodo = () => {
     deleteTodo(todo.id);
@@ -37,24 +24,16 @@ const Todo = ({ todo }) => {
   };
 
   const handleEditTodo = () => {
-    const selectedTodo = todos.find((task) => task.id === todo.id);
-    setCurrTodo(selectedTodo);
+    setCurrTodo(todo);
     setOpenEditDialog(true);
   };
 
   const handleSubmitDialog = (curr) => {
-    const newTodos = todos.map((task) => {
-      if (curr.id === task.id) {
-        return {
-          ...task,
-          title: curr.title,
-          describtion: curr.describtion,
-        };
-      }
-      return task;
+    updateTodo({
+      id: curr.id,
+      title: curr.title,
+      describtion: curr.describtion,
     });
-    setTodos(newTodos);
-    localStorage.setItem("todos", JSON.stringify(newTodos));
     setOpenEditDialog(false);
   };
 

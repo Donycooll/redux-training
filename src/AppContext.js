@@ -1,7 +1,14 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { db } from "./firebase";
 import { useAuth } from "./AuthContext";
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 
 export const AppContext = createContext([]);
 
@@ -71,6 +78,17 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const updateTodo = async ({id, title, describtion}) => {
+    try {
+      const todoDoc = doc(db, "todos", id);
+      const newTodos = todos.filter((task) => task.id !== id);
+      await updateDoc(todoDoc, {title : title, describtion : describtion})
+      setTodos(newTodos)
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleFilterChange = (value, newValue) => {
     setTodosFilter(newValue);
     localStorage.setItem("todosFilter", newValue);
@@ -84,6 +102,7 @@ export const ContextProvider = ({ children }) => {
         createTodo,
         deleteTodo,
         toggleComplete,
+        updateTodo,
         todosFilter,
         setTodosFilter,
         handleFilterChange,
